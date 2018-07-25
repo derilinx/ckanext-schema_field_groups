@@ -17,41 +17,40 @@
         </p>
     {%- endif -%}
     {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
-    {%- set all_groups = h.schema_form_groups_list_of_groupings(schema) -%}
+    {%- set all_groups = h.schema_field_group_list_of_groupings(schema) -%}
 
-    <div class="container">
-        <div id="groupTab" class="container">
-            <ul class="nav nav-tabs nav-stacked col-md-2">
-                {%- for group in all_groups -%}
-                    <li><a href="#{{ group }}" data-toggle="tab">{{ group }}</a></li>
-                {%- endfor -%}
-            </ul>
+    <div id="groupTab" class="row">
+        <ul class="nav nav-pills nav-stacked col-md-2">
+            {%- for group in all_groups -%}
+                <li><a href="#{{ group }}" data-toggle="tab">{{ group }}</a></li>
+            {%- endfor -%}
+        </ul>
 
-            <div class="tab-content clearfix col-md-10">
-                {%- for group in all_groups -%}
-                    <div class="tab-pane" id="{{ group }}">
-                        {%- for field in schema.dataset_fields -%}
-                            {% if field.grouping == group %}
-                                {%- if field.form_snippet is not none -%}
-                                    {%- snippet 'scheming/snippets/form_field.html',
-                                        field=field, data=data, errors=errors, licenses=c.licenses,
-                                        entity_type='dataset', object_type=dataset_type -%}
-                                {%- endif -%}
+        {# css bug issue https://github.com/ckan/ckan/issues/4366 #}
+        <div class="tab-content clearfix col-md-10" style="display:block;">
+            {%- for group in all_groups -%}
+                <div class="tab-pane fade" id="{{ group }}">
+                    {%- for field in schema.dataset_fields -%}
+                        {% if field.grouping == group %}
+                            {%- if field.form_snippet is not none -%}
+                                {%- snippet 'scheming/snippets/form_field.html',
+                                    field=field, data=data, errors=errors, licenses=c.licenses,
+                                    entity_type='dataset', object_type=dataset_type -%}
                             {%- endif -%}
-                        {%- endfor -%}
-                    </div>
-                {%- endfor -%}
-
-            </div>
-
-            {%- if 'resource_fields' not in schema -%}
-                <!-- force controller to skip resource-editing step for this type -->
-                <input type="hidden" name="_ckan_phase" value=""/>
-            {%- endif -%}
+                        {%- endif -%}
+                    {%- endfor -%}
+                </div>
+            {%- endfor -%}
 
         </div>
+
+        {%- if 'resource_fields' not in schema -%}
+            <!-- force controller to skip resource-editing step for this type -->
+            <input type="hidden" name="_ckan_phase" value=""/>
+        {%- endif -%}
+
     </div>
-  {% resource 'schema_field_groups/js/datasetform.js' %}
+  {% resource 'schema_field_group/js/datasetform.js' %}
 
 
 

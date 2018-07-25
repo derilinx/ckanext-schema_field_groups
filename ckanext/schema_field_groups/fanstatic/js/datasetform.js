@@ -1,4 +1,2 @@
-$(document).on('ready', function () {
-    $(".nav-tabs li:first").addClass("active");
-    $(".tab-pane:first").addClass("active").removeClass("hidden");
-});
+$("#groupTab .nav-pills li:first").addClass("active");
+$("#groupTab .tab-pane:first").addClass("active fade in");
