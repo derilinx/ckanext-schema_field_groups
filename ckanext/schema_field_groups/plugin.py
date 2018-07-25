@@ -27,4 +27,5 @@ class SchemaFieldGroupsPlugin(plugins.SingletonPlugin):
     # ITemplateHelpers
     def get_helpers(self):
         #  groupable schema
+        log.debug('adding helper')
         return {'schema_field_group_list_of_groupings': list_of_groupings}
