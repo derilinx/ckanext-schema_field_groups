@@ -21,7 +21,7 @@
         </ul>
 
         {# css bug issue https://github.com/ckan/ckan/issues/4366 #}
-        <div class="tab-content clearfix col-md-10" style="display:block;">
+        <div class="tab-content col-md-10" style="display:block;">
             {%- for group in all_groups -%}
                 <div class="tab-pane fade" id="{{ group }}">
                     {%- for field in schema.dataset_fields -%}
