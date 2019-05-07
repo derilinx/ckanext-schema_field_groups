@@ -10,12 +10,12 @@
     {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
     {%- set all_groups = h.schema_field_group_list_of_groupings(schema) -%}
     {%- set dataset_has_organization = data.owner_org or data.group_id -%}
-    {%- set user_is_org_admin = (data.owner_org and h.check_access('organization_update', {'id':data.owner_org})) -%}
+    {%- set user_is_org_admin = (dataset_has_organization and h.check_access('organization_update', {'id':data.owner_org})) -%}
     {%- set user_is_admin = h.check_access('sysadmin') or user_is_org_admin -%}
 
-    {% if not all_groups %}
+    {%- if not all_groups -%}
         {{ super() }}
-    {% else %}
+    {%- else -%}
 	<div id="groupTab" class="row">
 	    <ul class="nav nav-pills nav-stacked col-md-2">
 		{%- for group in all_groups -%}
@@ -28,7 +28,7 @@
 		{%- for group in all_groups -%}
 		    <div class="tab-pane fade" id="{{ group }}">
 			{%- for field in schema.dataset_fields -%}
-			    {% if field.grouping == group %}
+			    {%- if field.grouping == group -%}
 				 {%- if field.form_snippet is not none -%}
 				   {%- if not field.visibility or (field.visibility == 'admin' and user_is_admin) -%}
 				     {%- snippet 'scheming/snippets/form_field.html',
@@ -50,6 +50,6 @@
 
 	</div>
 	{% resource 'schema_field_group/js/datasetform.js' %}
-    {% endif %}
+    {%- endif -%}
 
 {% endblock %}
