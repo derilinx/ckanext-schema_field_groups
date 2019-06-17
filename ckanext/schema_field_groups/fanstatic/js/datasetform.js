@@ -14,12 +14,12 @@ $("#next-tab").on('click', function(e) {
 });
 
 // hide initially
-//$('#next-tab+button').hide();
+// $('#next-tab+button').hide();
 
 // note, uncomment the #next-tab+button selectors to hide the submit button till you've
 // hit the last tab of schema items.
 
 // Hide if there's no group tab
 if ($('#groupTab').length == 0) {
-    $('#next-tab+button').hide();
+    $('button#next-tab').hide();
 }
