@@ -1,6 +1,5 @@
 include README.rst
 include LICENSE
 include requirements.txt
-recursive-include ckanext/tusla *.html *.json *.js *.less *.css *.mo *.jpg *.png *.ico
 graft ckanext
 include *.py
