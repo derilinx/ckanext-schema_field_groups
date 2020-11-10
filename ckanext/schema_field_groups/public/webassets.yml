@@ -1,0 +1,8 @@
+js:
+  contents:
+    - js/datasetform.js
+  output: schema_field_groups/js_%(version)s.js
+  filters: rjsmin
+  extra:
+    preload:
+      - vendor/jquery
