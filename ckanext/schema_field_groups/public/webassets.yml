@@ -1,0 +1,4 @@
+schema_field_groups_js:
+  contents:
+    - js/datasetform.js
+  output: ckanext-schema_field_groups/%(version)s_schema_field_groups_js.js
