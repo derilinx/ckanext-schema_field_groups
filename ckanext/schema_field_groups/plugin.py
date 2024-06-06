@@ -1,5 +1,6 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+import re
 
 import logging
 log = logging.getLogger(__name__)
@@ -14,6 +15,10 @@ def list_of_groupings(schema):
         # unsorted
         return list(set([field['grouping'] for field in schema['dataset_fields'] if 'grouping' in field]))
 
+slugify_pat = re.compile('[^a-zA-Z0-9]')
+def slugify(s):
+    return slugify_pat.sub('', s)
+    
 class SchemaFieldGroupsPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITemplateHelpers)
@@ -28,4 +33,5 @@ class SchemaFieldGroupsPlugin(plugins.SingletonPlugin):
     def get_helpers(self):
         #  groupable schema
         log.debug('adding helper')
-        return {'schema_field_group_list_of_groupings': list_of_groupings}
+        return {'schema_field_group_list_of_groupings': list_of_groupings,
+                'slugify': slugify}
