@@ -1,0 +1,58 @@
+{# Not using ckan_extend because ckanext-scheming doesn't provide blocks#}
+{% asset 'schema_field_group/js' %}
+
+{% if group_type is not defined %}
+    {% set group_type = c.group_type %}
+{% endif %}
+
+{%- if not group_type -%}
+    <p>
+        group_type not passed to template. your version of CKAN
+        might not be compatible with ckanext-scheming
+    </p>
+{%- endif -%}
+
+<form class="dataset-form form-horizontal" method="post" data-module="basic-form" enctype="multipart/form-data">
+    {{ h.csrf_input() if 'csrf_input' in h }}
+    {%- set schema = h.scheming_get_group_schema(group_type) -%}
+    {%- set all_field_groups = h.schema_field_group_list_of_groupings(schema) -%}
+    {% if not all_field_groups %}
+      {{ super() }}
+    {% else %}
+      <div id="groupTab" class="row">
+        <ul class="nav nav-pills nav-stacked col-md-2">
+            {%- for field_group in all_field_groups -%}
+                <li><a href="#{{ h.slugify(field_group) }}" data-toggle="tab">{{ field_group }}</a></li>
+            {%- endfor -%}
+        </ul>
+
+        {# css bug issue https://github.com/ckan/ckan/issues/4366 #}
+        <div class="tab-content col-md-10" style="display:block;">
+          {%- for field_group in all_field_groups -%}
+            <div class="tab-pane fade" id="{{ h.slugify(field_group) }}">
+              {%- for field in schema.fields -%}
+                  {%- if field.form_snippet is not none and field.grouping == field_group -%}
+                    {%- snippet 'scheming/snippets/form_field.html',
+                    field=field, data=data, errors=errors, licenses=licenses,
+                    entity_type='group', object_type=group_type -%}
+                  {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="form-actions">
+        {% block delete_button %}
+        {% if action == 'edit' %}
+          {% if h.check_access('group_delete', {'id': data.id}) and action=='edit'  %}
+            {% set locale = h.dump_json({'content': _('Are you sure you want to delete this Group?')}) %}
+            <a class="btn btn-danger pull-left" href="{% url_for controller='group', action='delete', id=data.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
+          {% endif %}
+        {% endif %}
+        {% endblock %}
+        <button class="btn btn-primary" id="next-tab">{{ _('Next Category') }}</button>
+        <button class="btn btn-primary" name="save" type="submit">{% block save_text %}{{ _('Save Group') }}{% endblock %}</button>
+    </div>
+</form>

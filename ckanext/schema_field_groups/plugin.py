@@ -7,13 +7,9 @@ log = logging.getLogger(__name__)
 
 # groupable schema
 def list_of_groupings(schema):
-    log.debug("list_of_groupings")
-    if 'dataset_field_group_sort_order' in schema:
-        log.debug("schema order: %s" % schema['dataset_field_group_sort_order'])
-        return schema['dataset_field_group_sort_order']
-    else:
-        # unsorted
-        return list(set([field['grouping'] for field in schema['dataset_fields'] if 'grouping' in field]))
+    return schema.get('dataset_field_group_sort_order') or \
+            schema.get('field_group_sort_order') or \
+            list(set([field['grouping'] for field in schema['dataset_fields'] if 'grouping' in field]))
 
 slugify_pat = re.compile('[^a-zA-Z0-9]')
 def slugify(s):
