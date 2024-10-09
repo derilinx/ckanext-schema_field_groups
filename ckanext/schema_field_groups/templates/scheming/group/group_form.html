@@ -14,6 +14,14 @@
 
 <form class="dataset-form form-horizontal" method="post" data-module="basic-form" enctype="multipart/form-data">
     {{ h.csrf_input() if 'csrf_input' in h }}
+    {% block errors %}
+      {%- if errors -%}
+        {%- set schema = h.scheming_get_group_schema(group_type) -%}
+        {%- snippet 'scheming/snippets/errors.html',
+          errors=errors, fields=schema.fields,
+          entity_type='group', object_type=group_type -%}
+      {%- endif -%}
+    {% endblock %}
     {%- set schema = h.scheming_get_group_schema(group_type) -%}
     {%- set all_field_groups = h.schema_field_group_list_of_groupings(schema) -%}
     {% if not all_field_groups %}
