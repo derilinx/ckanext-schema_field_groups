@@ -12,20 +12,23 @@
     {%- set dataset_has_organization = data.owner_org or data.group_id -%}
     {%- set user_is_org_admin = (data.owner_org and h.check_access('organization_update', {'id':data.owner_org})) -%}
     {%- set user_is_admin = h.check_access('sysadmin') or user_is_org_admin -%}
-
+    {% set groups_to_omit_from_form = ['Base Registries', 'Agents'] %}
     {% if not all_groups %}
         {{ super() }}
     {% else %}
     <div id="groupTab" class="row">
         <ul class="nav nav-pills nav-stacked col-md-2">
             {%- for group in all_groups -%}
-                <li><a href="#{{ h.slugify(group) }}" data-toggle="tab">{{ group }}</a></li>
+            {% if group not in groups_to_omit_from_form %}
+                <li><a href="#{{ h.slugify(group) }}" data-toggle="tab">{{ _(group) }}</a></li>
+            {% endif %}
             {%- endfor -%}
         </ul>
 
         {# css bug issue https://github.com/ckan/ckan/issues/4366 #}
         <div class="tab-content col-md-10" style="display:block;">
             {%- for group in all_groups -%}
+             {% if group not in groups_to_omit_from_form %}
                 <div class="tab-pane fade" id="{{ h.slugify(group) }}">
                     {%- for field in schema.dataset_fields -%}
                         {% if field.grouping == group %}
@@ -39,6 +42,7 @@
                         {%- endif -%}
                     {%- endfor -%}
                 </div>
+            {% endif %}
             {%- endfor -%}
         </div>
 
