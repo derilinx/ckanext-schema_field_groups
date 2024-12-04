@@ -30,6 +30,9 @@
             {%- for group in all_groups -%}
              {% if group not in groups_to_omit_from_form %}
                 <div class="tab-pane fade" id="{{ h.slugify(group) }}">
+                    {% if group == "Geographic" or group == "Statistical" %}
+                    <div class="alert alert-warning" role="alertdialog">{{ _('Leave blank unless data is') }} {{group}}</div>
+                    {% endif %}
                     {%- for field in schema.dataset_fields -%}
                         {% if field.grouping == group %}
                             {%- if field.form_snippet is not none -%}
@@ -41,6 +44,7 @@
                             {%- endif -%}
                         {%- endif -%}
                     {%- endfor -%}
+
                 </div>
             {% endif %}
             {%- endfor -%}

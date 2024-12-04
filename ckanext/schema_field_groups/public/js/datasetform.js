@@ -13,6 +13,22 @@ $("#next-tab").on('click', function(e) {
   return false;
 });
 
+
+$(document).ready(function() {
+    // Check the value of "field-license_id" when the page loads
+    if ($('#field-license_id').val() === 'notspecified') {
+        $('#field-rights').prop('disabled', true);
+    }
+
+    // Also check when the value of "field-license_id" changes
+    $('#field-license_id').on('change', function() {
+        if ($(this).val() === 'notspecified') {
+            $('#field-rights').prop('disabled', true);
+        } else {
+            $('#field-rights').prop('disabled', false);
+        }
+    });
+});
 // hide initially
 //$('#next-tab+button').hide();
 
