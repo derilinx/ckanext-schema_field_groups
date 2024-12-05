@@ -1,6 +1,7 @@
 {# Not using ckan_extend because ckanext-scheming doesn't provide blocks#}
 {% asset 'schema_field_group/js' %}
 
+{% set groups_to_omit_from_form = ['Base Registries', 'Agents', 'High Value Datasets'] %}
 {% if group_type is not defined %}
     {% set group_type = c.group_type %}
 {% endif %}
@@ -30,13 +31,16 @@
       <div id="groupTab" class="row">
         <ul class="nav nav-pills nav-stacked col-md-2">
             {%- for field_group in all_field_groups -%}
+            {% if field_group not in groups_to_omit_from_form %}
                 <li><a href="#{{ h.slugify(field_group) }}" data-toggle="tab">{{ _(field_group) }}</a></li>
+            {% endif %}
             {%- endfor -%}
         </ul>
 
         {# css bug issue https://github.com/ckan/ckan/issues/4366 #}
         <div class="tab-content col-md-10" style="display:block;">
           {%- for field_group in all_field_groups -%}
+            {% if field_group not in groups_to_omit_from_form %}
             <div class="tab-pane fade" id="{{ h.slugify(field_group) }}">
               {%- for field in schema.fields -%}
                   {%- if field.form_snippet is not none and field.grouping == field_group -%}
@@ -46,6 +50,7 @@
                   {%- endif -%}
               {%- endfor -%}
             </div>
+            {% endif %}
           {%- endfor -%}
         </div>
       </div>
