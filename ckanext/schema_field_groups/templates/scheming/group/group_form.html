@@ -59,7 +59,8 @@
     <div class="form-actions">
         {% block delete_button %}
         {% if action == 'edit' %}
-          {% if h.check_access('group_delete', {'id': data.id}) and action=='edit'  %}
+          {% set can_delete = h.check_access('sysadmin') or h.user_is_admin_of_org(data.id) %}
+          {% if can_delete and action=='edit'  %}
             {% set locale = h.dump_json({'content': _('Are you sure you want to delete this Group?')}) %}
             <a class="btn btn-danger pull-left" href="{% url_for group_type+'.delete', id=data.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
           {% endif %}
