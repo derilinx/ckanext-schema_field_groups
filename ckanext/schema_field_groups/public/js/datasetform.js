@@ -1,11 +1,11 @@
-$("#groupTab .nav-pills li:first").addClass("active");
-$("#groupTab .tab-pane:first").addClass("active fade in");
+$("#groupTab .nav-pills button:first").addClass("active");
+$("#groupTab .tab-pane:first").addClass("active show");
 
 // move forward
 $("#next-tab").on('click', function(e) {
-  $('.dataset-form .nav > .active').next('li').find('a').trigger('click')
+  $('#groupTab .nav-pills > .active').next('button').trigger('click')
   // is there another one? if not, swap buttons
-  if ($('.dataset-form .nav > .active').next('li').length == 0) {
+  if ($('#groupTab .nav-pills > .active').next('button').length == 0) {
     //$('#next-tab+button').show();
     $('#next-tab').hide();
   }
