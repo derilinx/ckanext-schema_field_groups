@@ -1,0 +1,7 @@
+#groupTab .nav-link.error {
+    border-left: 5px solid var(--bs-danger);
+    margin-left: -5px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
