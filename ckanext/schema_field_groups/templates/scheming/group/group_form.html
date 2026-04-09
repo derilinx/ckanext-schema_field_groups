@@ -32,7 +32,9 @@
       <div id="groupTab" class="row">
         <ul class="nav nav-pills nav-stacked col-md-2">
             {%- for field_group in all_field_groups -%}
-                <li><a href="#{{ h.slugify(field_group) }}" data-toggle="tab">{{ h.scheming_language_text(group_labels.get(field_group, field_group)) }}</a></li>
+            {%- set raw_group_label = group_labels.get(field_group, field_group) -%}
+            {%- set translated_group_label = h.scheming_language_text(raw_group_label) -%}
+            <li><a href="#{{ h.slugify(field_group) }}" data-toggle="tab">{{ translated_group_label or (raw_group_label.get('en') if raw_group_label is mapping else raw_group_label) or field_group }}</a></li>
             {%- endfor -%}
         </ul>
 
