@@ -9,6 +9,7 @@
     {%- endif -%}
     {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
     {%- set all_groups = h.schema_field_group_list_of_groupings(schema) -%}
+    {%- set group_labels = schema.get('dataset_field_group_labels', {}) -%}
     {%- set dataset_has_organization = data.owner_org or data.group_id -%}
     {%- set user_is_org_admin = (data.owner_org and h.check_access('organization_update', {'id':data.owner_org})) -%}
     {%- set user_is_admin = h.check_access('sysadmin') or user_is_org_admin -%}
@@ -29,7 +30,7 @@
                     aria-controls="v-pills-{{ h.slugify(group) }}" 
                     aria-selected="true"
                     style="text-align:left;">
-                    {{ group }}
+                    {{ h.scheming_language_text(group_labels.get(group, group)) }}
                 </button>
             {%- endfor -%}        
         </div>
