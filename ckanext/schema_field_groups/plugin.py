@@ -1,5 +1,6 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+from ckan.lib.plugins import DefaultTranslation
 import re
 
 import logging
@@ -15,7 +16,7 @@ slugify_pat = re.compile('[^a-zA-Z0-9]')
 def slugify(s):
     return slugify_pat.sub('', s)
     
-class SchemaFieldGroupsPlugin(plugins.SingletonPlugin):
+class SchemaFieldGroupsPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITemplateHelpers)
 
@@ -28,6 +29,5 @@ class SchemaFieldGroupsPlugin(plugins.SingletonPlugin):
     # ITemplateHelpers
     def get_helpers(self):
         #  groupable schema
-        log.debug('adding helper')
         return {'schema_field_group_list_of_groupings': list_of_groupings,
                 'slugify': slugify}
