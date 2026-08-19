@@ -28,6 +28,19 @@ $(document).ready(function() {
             $('#field-rights').prop('disabled', false);
         }
     });
+
+    if ($('#field-high_value_dataset').val() === 'true') {
+        $('input[name="applicable_legislation"]').val('http://data.europa.eu/eli/reg_impl/2023/138/oj');
+    }
+    $('#field-high_value_dataset').on('change', function() {
+        console.log($('#field-high_value_dataset').val());
+        if ($(this).val() === 'true') {
+            $('input[name="applicable_legislation"]').val('http://data.europa.eu/eli/reg_impl/2023/138/oj');
+        } else {
+            $('input[name="applicable_legislation"]').val('');
+        }
+    });
+
 });
 // hide initially
 //$('#next-tab+button').hide();
