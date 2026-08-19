@@ -13,9 +13,12 @@ def list_of_groupings(schema):
             list(set([field['grouping'] for field in schema['dataset_fields'] if 'grouping' in field]))
 
 def user_is_admin_of_org(org_id):
-    orgs_admins = toolkit.get_action('member_list')({}, {'id': org_id, 'object_type': 'user', 'capacity': 'admin'})
+    orgs_admins = toolkit.get_action('member_list')({'ignore_auth': True}, {'id': org_id, 'object_type': 'user', 'capacity': 'admin'})
     orgs_admin_list = [m[0] for m in orgs_admins]
-    return current_user.id in orgs_admin_list
+    try:
+        return current_user.id in orgs_admin_list
+    except AttributeError:
+        return False
 
 slugify_pat = re.compile('[^a-zA-Z0-9]')
 def slugify(s):
