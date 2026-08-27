@@ -1,5 +1,6 @@
 {# Not using ckan_extend because ckanext-scheming doesn't provide blocks#}
 {% asset 'schema_field_group/js' %}
+{% asset 'schema_field_group/css' %}
 
 {% if group_type is not defined %}
     {% set group_type = c.group_type %}
@@ -24,13 +25,16 @@
     {% endblock %}
     {%- set schema = h.scheming_get_group_schema(group_type) -%}
     {%- set all_field_groups = h.schema_field_group_list_of_groupings(schema) -%}
+    {%- set group_labels = schema.get('field_group_labels', schema.get('dataset_field_group_labels', {})) -%}
     {% if not all_field_groups %}
       {{ super() }}
     {% else %}
       <div id="groupTab" class="row">
         <ul class="nav nav-pills nav-stacked col-md-2">
             {%- for field_group in all_field_groups -%}
-                <li><a href="#{{ h.slugify(field_group) }}" data-toggle="tab">{{ field_group }}</a></li>
+            {%- set raw_group_label = group_labels.get(field_group, field_group) -%}
+            {%- set translated_group_label = h.scheming_language_text(raw_group_label) -%}
+            <li><a href="#{{ h.slugify(field_group) }}" data-toggle="tab">{{ translated_group_label or (raw_group_label.get('en') if raw_group_label is mapping else raw_group_label) or field_group }}</a></li>
             {%- endfor -%}
         </ul>
 
