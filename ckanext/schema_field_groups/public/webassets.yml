@@ -6,3 +6,9 @@ js:
   extra:
     preload:
       - vendor/jquery
+
+css:
+  output: schema_field_groups/css_%(version)s.css
+  contents:
+    - css/datasetform.css
+
