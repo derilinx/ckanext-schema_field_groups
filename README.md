@@ -2,6 +2,8 @@
 
 Requires ckanext_scheming.
 
+The master branch targets CKAN 2.11, for older versions use the appropiate branch.
+
 Install:
 
 * pip install ckanext-schema_field_groups
