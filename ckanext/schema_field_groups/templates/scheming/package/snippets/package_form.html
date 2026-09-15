@@ -18,7 +18,7 @@
         {{ super() }}
     {% else %}
     <div id="groupTab" class="d-flex align-items-start">
-        <div class="nav nav-stacked flex-column nav-pills me-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <div class="nav nav-stacked flex-column nav-pills me-4 col-md-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             {%- for group in all_groups -%}
                 {%- set raw_group_label = group_labels.get(group, group) -%}
                 {%- set translated_group_label = h.scheming_language_text(raw_group_label) -%}
