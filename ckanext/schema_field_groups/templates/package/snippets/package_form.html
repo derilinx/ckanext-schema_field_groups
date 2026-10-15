@@ -1,5 +1,8 @@
 {% ckan_extends %}
 {% block save_button %}
+   {%- set schema = h.scheming_get_dataset_schema(dataset_type) if dataset_type else none -%}
+   {%- if schema and h.schema_field_group_list_of_groupings(schema) -%}
    <button class="btn btn-primary" id="next-tab">{{ _('Next Category') }}</button>
+   {%- endif -%}
    {{ super() }}
 {% endblock %}
